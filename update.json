@@ -1,8 +1,8 @@
 {
-  "version": "1.4.0",
+  "version": "1.4.1",
   "requires": "6.5",
   "tested": "6.9",
   "requires_php": "8.0",
   "download_url": "https://github.com/tsu58-rgb/timewalk-meetup-events/archive/refs/heads/main.zip",
-  "changelog": "1.4.0: Four-column desktop layout, two-column mobile layout, smaller titles, attendee count, compact Events page, and automatic GitHub updates."
+  "changelog": "1.4.1: Fixed a critical error caused by updating the Events page too early during WordPress startup. Automatic page rewriting was removed."
 }
