@@ -1,8 +1,8 @@
 {
-  "version": "1.4.2",
+  "version": "1.4.3",
   "requires": "6.5",
   "tested": "6.9",
   "requires_php": "8.0",
   "download_url": "https://github.com/tsu58-rgb/timewalk-meetup-events/archive/refs/heads/main.zip",
-  "changelog": "1.4.2: Fixed attendee-count extraction from Meetup event data and removed the stray literal \\n from the Events page."
+  "changelog": "1.4.3: Plugin updates and event refreshes now run automatically through WordPress cron. Manual update checks and refresh actions are no longer required."
 }
