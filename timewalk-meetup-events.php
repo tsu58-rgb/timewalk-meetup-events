@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TimeWalk Meetup Events
  * Description: Displays Meetup events from the TimeWalk Japan Google Sheets event list.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: TimeWalk Japan
  * Update URI: https://github.com/tsu58-rgb/timewalk-meetup-events
  * Requires at least: 6.5
@@ -11,16 +11,17 @@
 if (!defined('ABSPATH')) exit;
 
 final class TimeWalk_Meetup_Events {
-    const VERSION = '1.4.1';
+    const VERSION = '1.4.2';
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRCxTcvP_OdDabsRBhNEFzXKJlKN_6Z-5Zd6E4tG9UxMgZPUkL_6-hGxG4RDvoWUd0_lrVUF049S03/pub?gid=1954885293&single=true&output=csv';
     const UPDATE_JSON = 'https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/update.json';
     const PACKAGE_URL = 'https://github.com/tsu58-rgb/timewalk-meetup-events/archive/refs/heads/main.zip';
-    const CACHE = 'twj_meetup_events_141';
-    const UPDATE_CACHE = 'twj_meetup_update_141';
+    const CACHE = 'twj_meetup_events_142';
+    const UPDATE_CACHE = 'twj_meetup_update_142';
 
     public function __construct() {
         register_activation_hook(__FILE__, [$this, 'activate']);
         add_action('init', [$this, 'upgrade'], 20);
+        add_action('wp_loaded', [$this, 'cleanup_events_page'], 20);
         add_shortcode('timewalk_meetup_events', [$this, 'shortcode']);
         add_action('wp_enqueue_scripts', [$this, 'styles']);
         add_action('admin_menu', [$this, 'menu']);
@@ -43,6 +44,23 @@ final class TimeWalk_Meetup_Events {
             delete_site_transient(self::UPDATE_CACHE);
             update_option('twj_meetup_events_version', self::VERSION, false);
         }
+    }
+
+    public function cleanup_events_page() {
+        if ((string) get_option('twj_meetup_events_page_cleanup_142', '') === '1') return;
+
+        $page = get_post(18);
+        if ($page && $page->post_type === 'page') {
+            $content = str_replace('\\n', '', (string) $page->post_content);
+            if ($content !== (string) $page->post_content) {
+                wp_update_post([
+                    'ID' => 18,
+                    'post_content' => wp_slash($content),
+                ]);
+            }
+        }
+
+        update_option('twj_meetup_events_page_cleanup_142', '1', false);
     }
 
     public function menu() {
@@ -108,16 +126,25 @@ final class TimeWalk_Meetup_Events {
         $html = wp_remote_retrieve_body($r);
         if (!$html) return null;
 
+        preg_match('#/events/(\d+)/?#', $url, $id_match);
+        $event_id = (string) ($id_match[1] ?? '');
+
         if (preg_match('/<script[^>]+id=["\']__NEXT_DATA__["\'][^>]*>(.*?)<\/script>/is', $html, $m)) {
-            $data = json_decode(html_entity_decode(trim($m[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8'), true);
-            $state = $data['props']['pageProps']['__APOLLO_STATE__'] ?? [];
-            preg_match('#/events/(\d+)/?#', $url, $id);
-            $node = $state['Event:' . ($id[1] ?? '')] ?? null;
-            if (is_array($node)) {
-                $image = '';
-                $ref = $node['featuredEventPhoto']['__ref'] ?? $node['displayPhoto']['__ref'] ?? '';
-                if ($ref && !empty($state[$ref]['highResUrl'])) $image = $state[$ref]['highResUrl'];
-                return $this->normalize($node['title'] ?? '', $node['eventUrl'] ?? $url, $node['dateTime'] ?? '', $image, (int)($node['going']['totalCount'] ?? 0));
+            $json = html_entity_decode(trim($m[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $data = json_decode($json, true);
+            if (is_array($data)) {
+                $state = $data['props']['pageProps']['__APOLLO_STATE__'] ?? [];
+                $node = is_array($state) && $event_id !== '' ? ($state['Event:' . $event_id] ?? null) : null;
+                if (!is_array($node)) $node = $this->find_event_node($data, $event_id);
+
+                if (is_array($node)) {
+                    $image = '';
+                    $ref = $node['featuredEventPhoto']['__ref'] ?? $node['displayPhoto']['__ref'] ?? '';
+                    if ($ref && is_array($state) && !empty($state[$ref]['highResUrl'])) $image = $state[$ref]['highResUrl'];
+                    $going = $this->attendee_count($html, $node);
+                    $event = $this->normalize($node['title'] ?? $node['name'] ?? '', $node['eventUrl'] ?? $node['url'] ?? $url, $node['dateTime'] ?? $node['startDate'] ?? '', $image ?: ($node['image'] ?? ''), $going);
+                    if ($event) return $event;
+                }
             }
         }
 
@@ -129,12 +156,58 @@ final class TimeWalk_Meetup_Events {
                     if (!is_array($node)) continue;
                     $type = $node['@type'] ?? '';
                     if ($type !== 'Event' && !(is_array($type) && in_array('Event', $type, true))) continue;
-                    $going = preg_match('/"going"\s*:\s*\{[^{}]*"totalCount"\s*:\s*(\d+)/s', $html, $g) ? (int)$g[1] : 0;
-                    return $this->normalize($node['name'] ?? '', $node['url'] ?? $url, $node['startDate'] ?? '', $node['image'] ?? '', $going);
+                    return $this->normalize($node['name'] ?? '', $node['url'] ?? $url, $node['startDate'] ?? '', $node['image'] ?? '', $this->attendee_count($html));
                 }
             }
         }
         return null;
+    }
+
+    private function find_event_node($value, $event_id, $depth = 0) {
+        if (!is_array($value) || $depth > 25) return null;
+
+        $id = isset($value['id']) ? (string) $value['id'] : '';
+        $event_url = isset($value['eventUrl']) ? (string) $value['eventUrl'] : '';
+        if (($event_id !== '' && $id === $event_id) || ($event_id !== '' && strpos($event_url, '/events/' . $event_id) !== false)) {
+            if (isset($value['title']) || isset($value['name'])) return $value;
+        }
+
+        foreach ($value as $child) {
+            if (!is_array($child)) continue;
+            $found = $this->find_event_node($child, $event_id, $depth + 1);
+            if (is_array($found)) return $found;
+        }
+        return null;
+    }
+
+    private function attendee_count($html, $node = []) {
+        $count = 0;
+        if (is_array($node)) {
+            $count = (int) ($node['going']['totalCount'] ?? 0);
+            if ($count < 1) {
+                foreach ($node as $key => $value) {
+                    if (is_string($key) && strpos($key, 'rsvps(') === 0 && is_array($value)) {
+                        $count = (int) ($value['totalCount'] ?? 0);
+                        if ($count > 0) break;
+                    }
+                }
+            }
+        }
+        if ($count > 0) return $count;
+
+        $decoded = html_entity_decode((string) $html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $variants = [$decoded, stripslashes($decoded), str_replace('\\"', '"', $decoded)];
+        $patterns = [
+            '/"going"\s*:\s*\{.{0,400}?"totalCount"\s*:\s*(\d+)/s',
+            '/"rsvps\([^)]*\)"\s*:\s*\{.{0,400}?"totalCount"\s*:\s*(\d+)/s',
+            '/(\d+)\s+(?:attendees|attending)\b/i',
+        ];
+        foreach ($variants as $variant) {
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $variant, $m)) return (int) $m[1];
+            }
+        }
+        return 0;
     }
 
     private function normalize($title, $url, $date, $image, $going) {
