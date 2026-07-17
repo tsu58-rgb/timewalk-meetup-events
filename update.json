@@ -1,8 +1,8 @@
 {
-  "version": "1.4.3",
+  "version": "1.4.4",
   "requires": "6.5",
   "tested": "6.9",
   "requires_php": "8.0",
   "download_url": "https://github.com/tsu58-rgb/timewalk-meetup-events/archive/refs/heads/main.zip",
-  "changelog": "1.4.3: Plugin updates and event refreshes now run automatically through WordPress cron. Manual update checks and refresh actions are no longer required."
+  "changelog": "1.4.4: Removed excess vertical spacing around attendee counts and prevented cards from stretching taller than their content."
 }
