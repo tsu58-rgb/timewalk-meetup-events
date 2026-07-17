@@ -1,8 +1,8 @@
 {
-  "version": "1.4.5",
+  "version": "1.4.6",
   "requires": "6.5",
   "tested": "7.0.1",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.4.5: Replaced the failing ZIP-based updater with a validated atomic single-file updater. Restores a valid plugin header and keeps the compact card spacing."
+  "changelog": "1.4.6: Removed the duplicate Home title, normalized the primary navigation and Home CTA, and replaced the generic Astra footer with a TimeWalk Japan footer."
 }
