@@ -1,8 +1,8 @@
 {
-  "version": "1.4.4",
+  "version": "1.4.5",
   "requires": "6.5",
-  "tested": "6.9",
+  "tested": "7.0.1",
   "requires_php": "8.0",
-  "download_url": "https://github.com/tsu58-rgb/timewalk-meetup-events/archive/refs/heads/main.zip",
-  "changelog": "1.4.4: Removed excess vertical spacing around attendee counts and prevented cards from stretching taller than their content."
+  "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
+  "changelog": "1.4.5: Replaced the failing ZIP-based updater with a validated atomic single-file updater. Restores a valid plugin header and keeps the compact card spacing."
 }
