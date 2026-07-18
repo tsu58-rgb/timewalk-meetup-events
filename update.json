@@ -1,8 +1,9 @@
 {
-  "version": "1.4.6",
+  "version": "1.4.7",
   "requires": "6.5",
   "tested": "7.0.1",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.4.6: Removed the duplicate Home title, normalized the primary navigation and Home CTA, and replaced the generic Astra footer with a TimeWalk Japan footer."
+  "sha256": "b94da928986baaf4ce731c7a4b11e233e4eef62461e914b9a31c71847379ca9c",
+  "changelog": "1.4.7: Publishes the first two TimeWalk Japan self-guided walks, adds a searchable area-filtered card listing without distance or time, and stores distance and duration for future use."
 }
