@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "guides": [
+    {
+      "guide_id": "GUIDE-0001",
+      "title": "Tokyo’s Hidden Temple Town: A Self-Guided Historical Walk through Umezato",
+      "slug": "umezato-temple-town-walking-guide",
+      "seo_title": "Umezato Temple Town Walk: Hidden History in Tokyo",
+      "meta_description": "Explore ten historic temples on a 3 km self-guided walk through Umezato, tracing Tokyo’s relocations, disasters, scholars, graves and rebuilding.",
+      "area": "Umezato",
+      "area_slug": "umezato",
+      "short": "Trace relocated temples, old village institutions, scholars and graves to see how modern Tokyo reshaped suburban Suginami.",
+      "distance": "3 km",
+      "duration": "90–120 minutes",
+      "content_urls": [
+        "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/guides/guide-0001-1.html",
+        "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/guides/guide-0001-rest.html"
+      ]
+    },
+    {
+      "guide_id": "GUIDE-0002",
+      "title": "Walking Tokyo’s Lost Momozono River: A Self-Guided Koenji History Walk",
+      "slug": "momozono-river-koenji-history-walk",
+      "seo_title": "Momozono River & Koenji History Walk | Tokyo",
+      "meta_description": "Follow Tokyo’s lost Momozono River through Koenji on a self-guided historical walk connecting culverts, temple relocations, old roads and modern neighborhoods.",
+      "area": "Koenji",
+      "area_slug": "koenji",
+      "short": "Follow a buried river, village shrines, old roads and relocated temples beneath Koenji’s modern streets.",
+      "distance": "5 km",
+      "duration": "2.5–3 hours",
+      "content_urls": [
+        "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/guides/guide-0002.html"
+      ]
+    }
+  ],
+  "maps": {
+    "GUIDE-0001": [
+      {"order":1,"spotId":"SPOT-000001","name":"Saiho-ji Temple","lat":35.6950496,"lng":139.6497052,"anchorId":"stop-01","googleMapsUrl":"https://www.google.com/maps?q=35.6950496,139.6497052"},
+      {"order":2,"spotId":"SPOT-000002","name":"Seitoku-ji Temple","lat":35.6952953,"lng":139.64842,"anchorId":"stop-02","googleMapsUrl":"https://www.google.com/maps?q=35.6952953,139.64842"},
+      {"order":3,"spotId":"SPOT-000003","name":"Chiko-in Temple","lat":35.6953849,"lng":139.6476892,"anchorId":"stop-03","googleMapsUrl":"https://www.google.com/maps?q=35.6953849,139.6476892"},
+      {"order":4,"spotId":"SPOT-000004","name":"Keian-ji Temple","lat":35.6955554,"lng":139.648258,"anchorId":"stop-04","googleMapsUrl":"https://www.google.com/maps?q=35.6955554,139.648258"},
+      {"order":5,"spotId":"SPOT-000005","name":"Shingetsu-in Temple","lat":35.695827,"lng":139.648056,"anchorId":"stop-05","googleMapsUrl":"https://www.google.com/maps?q=35.695827,139.648056"},
+      {"order":6,"spotId":"SPOT-000006","name":"Daiho-ji Temple","lat":35.6964859,"lng":139.6478777,"anchorId":"stop-06","googleMapsUrl":"https://www.google.com/maps?q=35.6964859,139.6478777"},
+      {"order":7,"spotId":"SPOT-000007","name":"Ketoku-in Temple","lat":35.69568,"lng":139.647223,"anchorId":"stop-07","googleMapsUrl":"https://www.google.com/maps?q=35.69568,139.647223"},
+      {"order":8,"spotId":"SPOT-000008","name":"Seiken-ji Temple","lat":35.6970115,"lng":139.6449909,"anchorId":"stop-08","googleMapsUrl":"https://www.google.com/maps?q=35.6970115,139.6449909"},
+      {"order":9,"spotId":"SPOT-000009","name":"Kaiun-ji Temple","lat":35.6963201,"lng":139.6375579,"anchorId":"stop-09","googleMapsUrl":"https://www.google.com/maps?q=35.6963201,139.6375579"},
+      {"order":10,"spotId":"SPOT-000010","name":"Tenkei-ji Temple","lat":35.6970579,"lng":139.6370301,"anchorId":"stop-10","googleMapsUrl":"https://www.google.com/maps?q=35.6970579,139.6370301"}
+    ],
+    "GUIDE-0002": [
+      {"order":1,"spotId":"SPOT-000011","name":"Koenji Koshinzuka","lat":35.70945,"lng":139.6501,"anchorId":"stop-01","googleMapsUrl":"https://www.google.com/maps?q=35.70945,139.6501"},
+      {"order":2,"spotId":"SPOT-000012","name":"Koenji Hikawa Shrine and Weather Shrine","lat":35.70565,"lng":139.65176,"anchorId":"stop-02","googleMapsUrl":"https://www.google.com/maps?q=35.70565,139.65176"},
+      {"order":3,"spotId":"SPOT-000013","name":"Momozono River Greenway","lat":35.70305,"lng":139.65005,"anchorId":"stop-03","googleMapsUrl":"https://www.google.com/maps?q=35.70305,139.65005"},
+      {"order":4,"spotId":"SPOT-000014","name":"Tanaka Inari Shrine and Horinouchi Shindo","lat":35.69925,"lng":139.659,"anchorId":"stop-04","googleMapsUrl":"https://www.google.com/maps?q=35.69925,139.659"},
+      {"order":5,"spotId":"SPOT-000015","name":"Koenji Tenso Shrine","lat":35.700045,"lng":139.657474,"anchorId":"stop-05","googleMapsUrl":"https://www.google.com/maps?q=35.700045,139.657474"},
+      {"order":6,"spotId":"SPOT-000016","name":"Folk-Belief Stone Towers of Koenji-minami","lat":35.7008,"lng":139.6608,"anchorId":"stop-06","googleMapsUrl":"https://www.google.com/maps?q=35.7008,139.6608"},
+      {"order":7,"spotId":"SPOT-000017","name":"Choryu-ji Temple","lat":35.69992,"lng":139.65218,"anchorId":"stop-07","googleMapsUrl":"https://www.google.com/maps?q=35.69992,139.65218"},
+      {"order":8,"spotId":"SPOT-000018","name":"Saisho-ji Temple","lat":35.7,"lng":139.65083,"anchorId":"stop-08","googleMapsUrl":"https://www.google.com/maps?q=35.7,139.65083"},
+      {"order":9,"spotId":"SPOT-000019","name":"Horin-ji Temple","lat":35.70095,"lng":139.65225,"anchorId":"stop-09","googleMapsUrl":"https://www.google.com/maps?q=35.70095,139.65225"},
+      {"order":10,"spotId":"SPOT-000020","name":"Koen-ji Temple","lat":35.703722,"lng":139.652833,"anchorId":"stop-10","googleMapsUrl":"https://www.google.com/maps?q=35.703722,139.652833"}
+    ]
+  }
+}
