@@ -2,7 +2,7 @@
 /**
  * Plugin Name: TimeWalk Meetup Events
  * Description: TimeWalk Japan event listings, English-site presentation, self-guided walks, Tokyo viewpoint guides, Stories, and nationwide neighborhood histories.
- * Version: 1.7.2
+ * Version: 1.7.3
  * Author: TimeWalk Japan
  * Requires at least: 6.5
  * Requires PHP: 8.0
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 final class TWJ_Bootstrap {
-    const V = '1.7.2';
+    const V = '1.7.3';
 
     public function __construct() {
         add_action('plugins_loaded', array($this, 'load_modules'), 1);
