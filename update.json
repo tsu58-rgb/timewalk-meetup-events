@@ -1,8 +1,8 @@
 {
-  "version": "1.7.1",
+  "version": "1.7.2",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.7.1: Adds a searchable 12-per-page Stories directory with numbered pagination, refactors Neighborhood Histories into one shared nationwide component with data-driven prefecture views, and normalizes query-string pagination links while preserving active filters."
+  "changelog": "1.7.2: Restores the established Stories heading, theme heading and three-column card presentation while retaining keyword search, 12-item pagination and full-card links. Corrects the stylesheet and script asset paths used by Stories and Neighborhood Histories."
 }
