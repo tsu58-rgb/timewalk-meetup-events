@@ -1,8 +1,8 @@
 {
-  "version": "1.7.0",
+  "version": "1.7.1",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.7.0: Replaces the Stories six-item query with a searchable 12-per-page directory and numbered pagination. Refactors Neighborhood Histories into one shared nationwide component with structured prefecture, municipality, area, historical-character, station and walk data, plus data-driven prefecture directories without copied pages."
+  "changelog": "1.7.1: Adds a searchable 12-per-page Stories directory with numbered pagination, refactors Neighborhood Histories into one shared nationwide component with data-driven prefecture views, and normalizes query-string pagination links while preserving active filters."
 }
