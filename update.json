@@ -1,8 +1,8 @@
 {
-  "version": "1.4.7",
+  "version": "1.6.0",
   "requires": "6.5",
-  "tested": "7.0.1",
+  "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.4.7: Publishes the first two TimeWalk Japan self-guided walks, adds a searchable area-filtered card listing without distance or time, and stores distance and duration for future use. Update metadata hotfix: removed the optional checksum gate to prevent a false-negative self-update block."
+  "changelog": "1.6.0: Adds the Neighborhood Histories of Japan and Tokyo directory foundations, scalable search and filters, structured metadata and taxonomies, nested city URLs, reusable article patterns, conditional maps, internal links, SEO metadata, and empty-state handling."
 }
