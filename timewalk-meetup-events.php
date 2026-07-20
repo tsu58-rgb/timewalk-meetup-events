@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: TimeWalk Meetup Events
- * Description: TimeWalk Japan event listings, English-site presentation, self-guided walks, and Tokyo viewpoint guides.
- * Version: 1.5.5
+ * Description: TimeWalk Japan event listings, English-site presentation, self-guided walks, Tokyo viewpoint guides, and neighborhood histories.
+ * Version: 1.6.0
  * Author: TimeWalk Japan
  * Requires at least: 6.5
  * Requires PHP: 8.0
@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 }
 
 final class TWJ_Bootstrap {
-    const V = '1.5.5';
+    const V = '1.6.0';
 
     public function __construct() {
         add_action('plugins_loaded', array($this, 'load_modules'), 1);
@@ -24,7 +24,8 @@ final class TWJ_Bootstrap {
             'timewalk-meetup-module.php',
             'timewalk-self-guides-module.php',
             'timewalk-free-views-module.php',
-            'timewalk-article-presentation-module.php'
+            'timewalk-article-presentation-module.php',
+            'timewalk-neighborhood-histories-module.php'
         );
 
         foreach ($modules as $module) {
