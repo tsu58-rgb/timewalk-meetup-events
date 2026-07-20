@@ -1,8 +1,8 @@
 {
-  "version": "1.7.2",
+  "version": "1.7.3",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.7.2: Restores the established Stories heading, theme heading and three-column card presentation while retaining keyword search, 12-item pagination and full-card links. Corrects the stylesheet and script asset paths used by Stories and Neighborhood Histories."
+  "changelog": "1.7.3: Moves the Stories card, search, theme and pagination styles into the already deployed Stories PHP module so the established three-column presentation no longer depends on a separately copied CSS asset."
 }
