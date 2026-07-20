@@ -1,11 +1,11 @@
 <?php
-/* TimeWalk Japan module: searchable Stories directory */
+/* TimeWalk Japan module: searchable Stories directory with established card presentation */
 if (!defined('ABSPATH')) {
     exit;
 }
 
 final class TWJ_Stories_Directory_Module {
-    const VERSION = '1.0.0';
+    const VERSION = '1.1.0';
     const PER_PAGE = 12;
 
     public function __construct() {
@@ -27,9 +27,10 @@ final class TWJ_Stories_Directory_Module {
 
     private function page_content() {
         $neighborhood_url = home_url('/neighborhood-histories/');
-        return '<!-- wp:paragraph --><p>Read in-depth English articles about Japanese cities, railways, infrastructure, industry, museums and everyday life.</p><!-- /wp:paragraph -->'
+        return '<!-- wp:heading {"level":1} --><h1>Stories</h1><!-- /wp:heading -->'
+            . '<!-- wp:paragraph --><p>Read in-depth English articles about Japanese cities, railways, infrastructure, industry, museums and everyday life.</p><!-- /wp:paragraph -->'
             . '<!-- wp:shortcode -->[timewalk_stories_directory]<!-- /wp:shortcode -->'
-            . '<!-- wp:heading --><h2>Explore by Theme</h2><!-- /wp:heading -->'
+            . '<!-- wp:heading --><h2>Themes</h2><!-- /wp:heading -->'
             . '<!-- wp:group {"className":"twj-story-theme-grid"} --><div class="wp-block-group twj-story-theme-grid">'
             . '<!-- wp:group {"className":"twj-story-theme-card"} --><div class="wp-block-group twj-story-theme-card"><h3>Cities and Neighborhoods</h3><p>How urban form, local communities and historical change shaped modern Japan.</p><p><a href="' . esc_url($neighborhood_url) . '">Explore Neighborhood Histories</a></p></div><!-- /wp:group -->'
             . '<!-- wp:group {"className":"twj-story-theme-card"} --><div class="wp-block-group twj-story-theme-card"><h3>Railways and Infrastructure</h3><p>Transport, rivers, flood control and the systems that made Japanese cities work.</p></div><!-- /wp:group -->'
@@ -43,7 +44,9 @@ final class TWJ_Stories_Directory_Module {
             return;
         }
         if ((string) get_option('twj_stories_directory_version', '') === self::VERSION
-            && strpos((string) $page->post_content, '[timewalk_stories_directory]') !== false) {
+            && strpos((string) $page->post_content, '[timewalk_stories_directory]') !== false
+            && strpos((string) $page->post_content, '<h1>Stories</h1>') !== false
+            && strpos((string) $page->post_content, '<h2>Themes</h2>') !== false) {
             return;
         }
         $updated = wp_update_post(wp_slash(array(
@@ -80,21 +83,9 @@ final class TWJ_Stories_Directory_Module {
             'ignore_sticky_posts' => true,
             'meta_query' => array(
                 'relation' => 'AND',
-                array(
-                    'relation' => 'OR',
-                    array('key' => '_twj_self_guide', 'compare' => 'NOT EXISTS'),
-                    array('key' => '_twj_self_guide', 'value' => '1', 'compare' => '!=')
-                ),
-                array(
-                    'relation' => 'OR',
-                    array('key' => '_twj_free_view', 'compare' => 'NOT EXISTS'),
-                    array('key' => '_twj_free_view', 'value' => '1', 'compare' => '!=')
-                ),
-                array(
-                    'relation' => 'OR',
-                    array('key' => '_twj_neighborhood_history', 'compare' => 'NOT EXISTS'),
-                    array('key' => '_twj_neighborhood_history', 'value' => '1', 'compare' => '!=')
-                )
+                array('relation' => 'OR', array('key' => '_twj_self_guide', 'compare' => 'NOT EXISTS'), array('key' => '_twj_self_guide', 'value' => '1', 'compare' => '!=')),
+                array('relation' => 'OR', array('key' => '_twj_free_view', 'compare' => 'NOT EXISTS'), array('key' => '_twj_free_view', 'value' => '1', 'compare' => '!=')),
+                array('relation' => 'OR', array('key' => '_twj_neighborhood_history', 'compare' => 'NOT EXISTS'), array('key' => '_twj_neighborhood_history', 'value' => '1', 'compare' => '!='))
             )
         );
         $excluded = $this->excluded_category_ids();
@@ -118,11 +109,7 @@ final class TWJ_Stories_Directory_Module {
         }
         $image = '';
         if (has_post_thumbnail($post_id)) {
-            $image = get_the_post_thumbnail($post_id, 'medium_large', array(
-                'loading' => 'lazy',
-                'decoding' => 'async',
-                'alt' => $title
-            ));
+            $image = get_the_post_thumbnail($post_id, 'medium_large', array('loading' => 'lazy', 'decoding' => 'async', 'alt' => $title));
         }
         return '<article class="twj-story-directory-card"><a class="twj-story-directory-card__link" href="' . esc_url($url) . '">'
             . ($image ? '<span class="twj-story-directory-card__image">' . $image . '</span>' : '')
@@ -138,15 +125,7 @@ final class TWJ_Stories_Directory_Module {
         if ($keyword !== '') {
             $args['story_search'] = $keyword;
         }
-        $links = paginate_links(array(
-            'base' => add_query_arg($args, $action),
-            'format' => '',
-            'current' => $current,
-            'total' => (int) $query->max_num_pages,
-            'type' => 'list',
-            'prev_text' => 'Previous',
-            'next_text' => 'Next'
-        ));
+        $links = paginate_links(array('base' => add_query_arg($args, $action), 'format' => '', 'current' => $current, 'total' => (int) $query->max_num_pages, 'type' => 'list', 'prev_text' => 'Previous', 'next_text' => 'Next'));
         return $links ? '<nav class="twj-story-pagination" aria-label="Stories pages">' . $links . '</nav>' : '';
     }
 
@@ -156,15 +135,10 @@ final class TWJ_Stories_Directory_Module {
         $keyword = $this->request_value('story_search');
         $current = max(1, absint($this->request_value('story_page')));
         $query = new WP_Query($this->query_args($keyword, $current));
-
-        $html = '<section class="twj-story-directory">'
-            . '<form class="twj-story-search" method="get" action="' . esc_url($action) . '">'
-            . '<label for="twj-story-search-input">Search stories</label>'
-            . '<div class="twj-story-search__row"><input id="twj-story-search-input" type="search" name="story_search" value="' . esc_attr($keyword) . '" placeholder="Search by keyword">'
-            . '<button type="submit">Search</button>'
-            . ($keyword !== '' ? '<a href="' . esc_url($action) . '">Clear</a>' : '')
-            . '</div></form>';
-
+        $html = '<section class="twj-story-directory"><form class="twj-story-search" method="get" action="' . esc_url($action) . '">'
+            . '<label for="twj-story-search-input">Search stories</label><div class="twj-story-search__row">'
+            . '<input id="twj-story-search-input" type="search" name="story_search" value="' . esc_attr($keyword) . '" placeholder="Search by keyword"><button type="submit">Search</button>'
+            . ($keyword !== '' ? '<a href="' . esc_url($action) . '">Clear</a>' : '') . '</div></form>';
         if ($query->have_posts()) {
             $html .= '<p class="twj-story-result-count">' . esc_html(number_format_i18n($query->found_posts)) . ' stories</p><div class="twj-story-directory-grid">';
             while ($query->have_posts()) {
@@ -183,8 +157,10 @@ final class TWJ_Stories_Directory_Module {
         if (!is_page('stories')) {
             return;
         }
-        $base = plugin_dir_url(dirname(__FILE__));
-        wp_enqueue_style('twj-stories-directory', $base . 'assets/timewalk-stories-directory.css', array(), self::VERSION);
+        $css = '.twj-story-search{margin:24px 0 18px;padding:16px;border:1px solid #e2e7ed;border-radius:12px;background:#f8fafb}.twj-story-search label{display:block;margin-bottom:6px;font-size:.82rem;font-weight:700}.twj-story-search__row{display:flex;gap:10px;align-items:center}.twj-story-search input{flex:1;min-width:0;min-height:44px;padding:9px 11px;border:1px solid #bfc8d2;border-radius:8px;background:#fff}.twj-story-search button{min-height:44px;padding:9px 18px;border:0;border-radius:999px;background:#172033;color:#fff;font-weight:700;cursor:pointer}.twj-story-search a{font-weight:700}.twj-story-search input:focus,.twj-story-search button:focus,.twj-story-directory-card__link:focus,.twj-story-pagination a:focus{outline:3px solid #5aa5c3;outline-offset:2px}.twj-story-result-count{margin:0 0 12px!important;color:#5a6876;font-size:.9rem}.twj-story-directory-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;align-items:stretch}.twj-story-directory-card{display:block!important;overflow:hidden;border:1px solid #e2e7ed;border-radius:12px;background:#fff;box-shadow:0 6px 18px rgba(23,32,51,.06)}.twj-story-directory-card__link{display:flex!important;height:100%;flex-direction:column;color:inherit!important;text-decoration:none!important}.twj-story-directory-card__image{display:block;aspect-ratio:16/9;overflow:hidden}.twj-story-directory-card__image img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;object-fit:cover}.twj-story-directory-card__body{display:flex;flex:1;flex-direction:column;padding:14px}.twj-story-directory-card__title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;margin-bottom:10px;color:#0563c1;font-size:1.05rem;font-weight:700;line-height:1.35;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}.twj-story-directory-card__excerpt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden;color:#455464;font-size:.88rem;line-height:1.6}.twj-story-pagination ul{display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:28px 0!important;padding:0!important}.twj-story-pagination a,.twj-story-pagination span{display:flex;min-width:40px;min-height:40px;align-items:center;justify-content:center;padding:7px 10px;border:1px solid #d4dbe2;border-radius:8px;text-decoration:none}.twj-story-pagination .current{background:#172033;color:#fff}.twj-story-empty{margin:22px 0;padding:20px;border:1px solid #e2e7ed;border-radius:12px;background:#f8fafb}.twj-story-theme-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:18px!important;margin-top:18px}.twj-story-theme-card{padding:20px;border:1px solid #e2e7ed;border-radius:12px;background:#fff;box-shadow:0 6px 18px rgba(23,32,51,.06)}.twj-story-theme-card h3{margin-top:0!important;font-size:1.08rem}.twj-story-theme-card p:last-child{margin-bottom:0!important}@media(max-width:900px){.twj-story-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:600px){.twj-story-directory-grid,.twj-story-theme-grid{grid-template-columns:1fr!important}.twj-story-search__row{align-items:stretch;flex-direction:column}.twj-story-search button{width:100%}}';
+        wp_register_style('twj-stories-directory-inline', false, array(), self::VERSION);
+        wp_enqueue_style('twj-stories-directory-inline');
+        wp_add_inline_style('twj-stories-directory-inline', $css);
     }
 
     public function robots($robots) {
@@ -207,25 +183,13 @@ final class TWJ_Stories_Directory_Module {
     }
 
     public function rest() {
-        register_rest_route('timewalk/v1', '/stories-status', array(
-            'methods' => 'GET',
-            'callback' => array($this, 'status'),
-            'permission_callback' => '__return_true'
-        ));
+        register_rest_route('timewalk/v1', '/stories-status', array('methods' => 'GET', 'callback' => array($this, 'status'), 'permission_callback' => '__return_true'));
     }
 
     public function status() {
         $page = $this->page();
         $query = new WP_Query($this->query_args('', 1));
-        return rest_ensure_response(array(
-            'module_version' => self::VERSION,
-            'page_id' => $page ? (int) $page->ID : 0,
-            'page_url' => $page ? get_permalink($page) : '',
-            'posts_per_page' => self::PER_PAGE,
-            'published_story_count' => (int) $query->found_posts,
-            'search_enabled' => true,
-            'pagination_enabled' => true
-        ));
+        return rest_ensure_response(array('module_version' => self::VERSION, 'page_id' => $page ? (int) $page->ID : 0, 'page_url' => $page ? get_permalink($page) : '', 'posts_per_page' => self::PER_PAGE, 'published_story_count' => (int) $query->found_posts, 'search_enabled' => true, 'pagination_enabled' => true, 'styles_inline' => true));
     }
 }
 
