@@ -1,8 +1,8 @@
 {
-  "version": "1.9.0",
+  "version": "1.9.1",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.9.0: Promotes Neighborhood Histories to a primary site section in navigation and on the homepage, removes the isolated Keep Exploring block, converts directory pagination to a standard horizontal control, compacts filters, and aligns Neighborhood History cards with the shared site card system while retaining content-specific fields."
+  "changelog": "1.9.1: Adds a shared card system for Stories, Neighborhood Histories and Self-Guided Walks, while keeping type-specific card content. Retains the primary navigation and homepage promotion, horizontal pagination, compact directory filters, and removal of the isolated Keep Exploring block."
 }
