@@ -1,8 +1,8 @@
 {
-  "version": "1.8.2",
+  "version": "1.9.0",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.8.2: Shows Neighborhood History cards in two columns on smartphones, reduces title and description font sizes and card spacing, and applies the Tokyo 23 special-ward municipality naming rule using City labels such as Suginami City."
+  "changelog": "1.9.0: Promotes Neighborhood Histories to a primary site section in navigation and on the homepage, removes the isolated Keep Exploring block, converts directory pagination to a standard horizontal control, compacts filters, and aligns Neighborhood History cards with the shared site card system while retaining content-specific fields."
 }
