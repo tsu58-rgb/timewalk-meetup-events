@@ -1,8 +1,8 @@
 {
-  "version": "1.9.1",
+  "version": "1.9.2",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.9.1: Adds a shared card system for Stories, Neighborhood Histories and Self-Guided Walks, while keeping type-specific card content. Retains the primary navigation and homepage promotion, horizontal pagination, compact directory filters, and removal of the isolated Keep Exploring block."
+  "changelog": "1.9.2: Adds an accessible site-wide search field to the primary header navigation, keeps the full search box visible on desktop, expands it to full width in the mobile menu, and marks internal search-result pages noindex, follow."
 }
