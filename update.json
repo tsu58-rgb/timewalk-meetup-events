@@ -1,8 +1,8 @@
 {
-  "version": "1.9.2",
+  "version": "1.9.3",
   "requires": "6.5",
   "tested": "7.0.2",
   "requires_php": "8.0",
   "php_url": "https://raw.githubusercontent.com/tsu58-rgb/timewalk-meetup-events/main/timewalk-meetup-events.php",
-  "changelog": "1.9.2: Adds an accessible site-wide search field to the primary header navigation, keeps the full search box visible on desktop, expands it to full width in the mobile menu, and marks internal search-result pages noindex, follow."
+  "changelog": "1.9.3: Removes duplicate entries from the rendered primary navigation while preserving the dynamically added Neighborhoods link and site-wide search field."
 }
